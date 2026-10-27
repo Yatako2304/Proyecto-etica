@@ -50,8 +50,8 @@ export default async function RecursoPage({ params }: { params: Promise<{ id: st
       <div className="card space-y-4">
         <div className="flex flex-wrap items-center gap-2">
           <TypeBadge type={resource.type} />
-          {resource.evaluation && <span className="text-sm font-medium text-slate-700">{resource.evaluation}</span>}
-          <span className="text-sm text-slate-500">Ciclo {resource.term}</span>
+          {resource.evaluation && <span className="text-sm font-medium text-neutral-700">{resource.evaluation}</span>}
+          <span className="text-sm text-neutral-500">Ciclo {resource.term}</span>
         </div>
         <h1 className="text-2xl font-bold">{resource.title}</h1>
         {parent && (
@@ -62,13 +62,13 @@ export default async function RecursoPage({ params }: { params: Promise<{ id: st
             </Link>
           </p>
         )}
-        {resource.description && <p className="whitespace-pre-line text-sm text-slate-700">{resource.description}</p>}
-        <p className="text-xs text-slate-500">
+        {resource.description && <p className="whitespace-pre-line text-sm text-neutral-700">{resource.description}</p>}
+        <p className="text-xs text-neutral-500">
           {resource.professor && <>Prof. {resource.professor} · </>}
           Subido por {author} · {formatDate(resource.created_at)} · {formatBytes(resource.file_size)}
         </p>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-100 pt-4">
           {isPublished ? (
             <VoteButtons
               resourceId={resource.id}
@@ -84,7 +84,7 @@ export default async function RecursoPage({ params }: { params: Promise<{ id: st
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+      <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
         {resource.file_mime === "application/pdf" ? (
           <iframe src={fileUrl} title={resource.title} className="h-[75vh] w-full" />
         ) : (
@@ -107,7 +107,7 @@ export default async function RecursoPage({ params }: { params: Promise<{ id: st
           {(solutions as FeedResource[] | null)?.length ? (
             (solutions as FeedResource[]).map((s) => <ResourceCard key={s.id} resource={s} />)
           ) : (
-            <p className="text-sm text-slate-500">Nadie ha subido un solucionario todavía.</p>
+            <p className="text-sm text-neutral-500">Nadie ha subido un solucionario todavía.</p>
           )}
         </section>
       )}

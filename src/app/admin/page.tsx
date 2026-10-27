@@ -43,7 +43,7 @@ export default async function AdminPage() {
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Cursos propuestos ({courses?.length ?? 0})</h2>
-        {!courses?.length && <p className="text-sm text-slate-500">Nada pendiente.</p>}
+        {!courses?.length && <p className="text-sm text-neutral-500">Nada pendiente.</p>}
         {courses?.map((c) => {
           const faculty = c.faculties as unknown as { name: string } | null;
           const proposer = c.profiles as unknown as { alias: string; email: string } | null;
@@ -51,7 +51,7 @@ export default async function AdminPage() {
             <div key={c.id} className="card flex flex-wrap items-center justify-between gap-3">
               <div>
                 <div className="font-semibold"><span className="text-brand-600">{c.code}</span> {c.name}</div>
-                <div className="text-xs text-slate-500">
+                <div className="text-xs text-neutral-500">
                   {faculty?.name} · por @{proposer?.alias} ({proposer?.email}) · {formatDate(c.created_at)}
                 </div>
               </div>
@@ -72,14 +72,14 @@ export default async function AdminPage() {
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Material pendiente ({resources?.length ?? 0})</h2>
-        {!resources?.length && <p className="text-sm text-slate-500">Nada pendiente.</p>}
+        {!resources?.length && <p className="text-sm text-neutral-500">Nada pendiente.</p>}
         {resources?.map((r) => (
           <div key={r.id} className="card space-y-3">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <TypeBadge type={r.type} />
-                  <span className="text-xs text-slate-500">
+                  <span className="text-xs text-neutral-500">
                     {r.courses.code} {r.courses.name} · {r.evaluation ?? ""} {r.term}
                   </span>
                   {r.courses.status !== "approved" && (
@@ -89,14 +89,14 @@ export default async function AdminPage() {
                   )}
                 </div>
                 <div className="font-semibold">{r.title}</div>
-                <div className="text-xs text-slate-500">
+                <div className="text-xs text-neutral-500">
                   @{r.profiles.alias} ({r.profiles.email}){r.is_anonymous ? " · pidió anonimato" : ""} ·{" "}
                   {formatBytes(r.file_size)} · {formatDate(r.created_at)}
                 </div>
               </div>
               <Link href={`/recurso/${r.id}`} target="_blank" className="btn-secondary">Revisar archivo ↗</Link>
             </div>
-            <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+            <div className="flex flex-wrap items-center gap-2 border-t border-neutral-100 pt-3">
               <form action={approveResource}>
                 <input type="hidden" name="id" value={r.id} />
                 <button className="btn-primary">Aprobar</button>

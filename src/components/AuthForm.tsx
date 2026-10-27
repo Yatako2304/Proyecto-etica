@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useActionState } from "react";
 import { signIn, signUp } from "@/app/actions/auth";
@@ -9,10 +10,11 @@ export default function AuthForm({ mode, next }: { mode: "login" | "registro"; n
   const [state, action, pending] = useActionState(isSignup ? signUp : signIn, undefined);
 
   return (
-    <div className="card mx-auto max-w-md space-y-5">
-      <div>
+    <div className="card mx-auto max-w-md space-y-5 border-t-4 border-t-brand-600">
+      <div className="space-y-3 text-center">
+        <Image src="/logo-mark.png" alt="ExamBank PUCP" width={64} height={58} className="mx-auto h-14 w-auto" />
         <h1 className="text-2xl font-bold">{isSignup ? "Crear cuenta" : "Ingresar"}</h1>
-        <p className="text-sm text-slate-500">Solo para estudiantes con correo @pucp.edu.pe</p>
+        <p className="text-sm text-neutral-500">Solo para estudiantes con correo @pucp.edu.pe</p>
       </div>
 
       <form action={action} className="space-y-4">
@@ -27,7 +29,7 @@ export default function AuthForm({ mode, next }: { mode: "login" | "registro"; n
             <label className="label" htmlFor="alias">Alias público</label>
             <input id="alias" name="alias" required minLength={3} maxLength={24} className="input"
               placeholder="ej. cachimbo_2025" pattern="[A-Za-z0-9_.\-]{3,24}" />
-            <p className="mt-1 text-xs text-slate-500">Es lo que verán los demás. Nunca mostramos tu correo.</p>
+            <p className="mt-1 text-xs text-neutral-500">Es lo que verán los demás. Nunca mostramos tu correo.</p>
           </div>
         )}
         <div>
@@ -36,15 +38,15 @@ export default function AuthForm({ mode, next }: { mode: "login" | "registro"; n
             className="input" autoComplete={isSignup ? "new-password" : "current-password"} />
         </div>
 
-        {state?.error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{state.error}</p>}
-        {state?.message && <p className="rounded-lg bg-green-50 p-3 text-sm text-green-700">{state.message}</p>}
+        {state?.error && <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">{state.error}</p>}
+        {state?.message && <p className="rounded-md bg-brand-50 p-3 text-sm text-brand-700">{state.message}</p>}
 
         <button className="btn-primary w-full" disabled={pending}>
           {pending ? "Un momento…" : isSignup ? "Crear cuenta" : "Ingresar"}
         </button>
       </form>
 
-      <p className="text-center text-sm text-slate-500">
+      <p className="text-center text-sm text-neutral-500">
         {isSignup ? "¿Ya tienes cuenta? " : "¿Aún no tienes cuenta? "}
         <Link href={isSignup ? "/login" : "/registro"} className="font-medium text-brand-600 hover:underline">
           {isSignup ? "Ingresa" : "Regístrate"}

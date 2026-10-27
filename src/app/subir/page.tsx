@@ -35,7 +35,7 @@ export default async function SubirPage({
     <div className="mx-auto max-w-2xl space-y-4">
       <div>
         <h1 className="text-2xl font-bold">Subir material</h1>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-neutral-500">
           Todo pasa por moderación antes de publicarse. Revisa que el archivo sea legible y no incluya datos
           personales (nombres, códigos de alumno, notas).
         </p>
@@ -49,7 +49,7 @@ export default async function SubirPage({
           parentId: padre ?? null,
         }}
       />
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-neutral-500">
         ¿No encuentras tu curso? <Link href="/proponer-curso" className="text-brand-600 underline">Propónlo</Link>.
       </p>
     </div>

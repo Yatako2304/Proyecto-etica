@@ -75,7 +75,7 @@ export default async function CursoPage({
       </form>
 
       {resources.length === 0 ? (
-        <div className="card text-center text-sm text-slate-500">
+        <div className="card text-center text-sm text-neutral-500">
           Aún no hay material publicado con estos filtros. ¡Sé el primero en{" "}
           <Link href={`/subir?curso=${course.id}`} className="text-brand-600 underline">subir algo</Link>!
         </div>

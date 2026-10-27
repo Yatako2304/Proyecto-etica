@@ -25,7 +25,7 @@ export default async function FacultadPage({ params }: { params: Promise<{ slug:
       </div>
 
       {courses.length === 0 ? (
-        <p className="text-sm text-slate-500">Aún no hay cursos en esta facultad.</p>
+        <p className="text-sm text-neutral-500">Aún no hay cursos en esta facultad.</p>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {courses.map((c) => (
@@ -34,7 +34,7 @@ export default async function FacultadPage({ params }: { params: Promise<{ slug:
                 <div className="text-xs font-semibold text-brand-600">{c.code}</div>
                 <div className="font-semibold">{c.name}</div>
               </div>
-              <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+              <span className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-medium text-neutral-600">
                 {c.resource_count}
               </span>
             </Link>
@@ -42,7 +42,7 @@ export default async function FacultadPage({ params }: { params: Promise<{ slug:
         </div>
       )}
 
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-neutral-500">
         ¿Falta un curso? <Link href="/proponer-curso" className="text-brand-600 underline">Propónlo</Link>.
       </p>
     </div>

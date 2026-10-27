@@ -16,10 +16,10 @@ export default function ConfigurarPage() {
   return (
     <div className="card mx-auto max-w-2xl space-y-4">
       <h1 className="text-2xl font-bold">Falta configurar Supabase</h1>
-      <p className="text-slate-600">
+      <p className="text-neutral-600">
         La app necesita un proyecto de Supabase para la base de datos, el login y los archivos.
       </p>
-      <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
+      <ol className="list-decimal space-y-2 pl-5 text-sm text-neutral-700">
         {steps.map((step, i) => (
           <li key={i}>{step}</li>
         ))}
