@@ -9,7 +9,7 @@ export default async function ProponerCursoPage() {
     <div className="mx-auto max-w-2xl space-y-4">
       <div>
         <h1 className="text-2xl font-bold">Proponer un curso</h1>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-neutral-500">
           Usa el código oficial del curso tal como aparece en tu horario. Un moderador lo revisará.
         </p>
       </div>

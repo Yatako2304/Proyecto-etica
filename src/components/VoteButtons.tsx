@@ -26,7 +26,7 @@ export default function VoteButtons({ resourceId, initial }: { resourceId: strin
   return (
     <div className="flex gap-2">
       <button onClick={() => cast(1)} disabled={pending}
-        className={`${base} ${state.mine === 1 ? "border-emerald-500 bg-emerald-50 text-emerald-700" : ""}`}>
+        className={`${base} ${state.mine === 1 ? "border-brand-600 bg-brand-50 text-brand-700" : ""}`}>
         👍 Útil · {state.up}
       </button>
       <button onClick={() => cast(-1)} disabled={pending}

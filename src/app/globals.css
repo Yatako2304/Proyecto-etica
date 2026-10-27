@@ -1,41 +1,54 @@
 @import "tailwindcss";
 
+/* Paleta institucional tomada del logo: verde #1F5B3A + negro. */
 @theme {
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dbe7ff;
-  --color-brand-500: #2f5fd0;
-  --color-brand-600: #1f4bb5;
-  --color-brand-700: #1a3d91;
-  --color-brand-900: #0f2453;
+  --color-brand-50: #f1f7f3;
+  --color-brand-100: #dcebe2;
+  --color-brand-200: #b9d6c5;
+  --color-brand-300: #8cba9f;
+  --color-brand-400: #5a9876;
+  --color-brand-500: #2f7a52;
+  --color-brand-600: #1f5b3a;
+  --color-brand-700: #194b30;
+  --color-brand-800: #133a26;
+  --color-brand-900: #0d2a1b;
+  --color-brand-950: #07170f;
+  --color-canvas: #f6f7f5;
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-canvas text-neutral-900 antialiased;
+}
+
+h1,
+h2,
+h3 {
+  @apply tracking-tight;
 }
 
 @layer components {
   .input {
-    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100;
+    @apply w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-brand-600 focus:ring-2 focus:ring-brand-100;
   }
 
   .label {
-    @apply mb-1 block text-sm font-medium text-slate-700;
+    @apply mb-1 block text-sm font-medium text-neutral-700;
   }
 
   .btn-primary,
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-primary {
-    @apply bg-brand-600 text-white hover:bg-brand-700;
+    @apply bg-brand-600 text-white shadow-sm hover:bg-brand-700;
   }
 
   .btn-secondary {
-    @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-100;
+    @apply border border-neutral-300 bg-white text-neutral-800 hover:border-brand-600 hover:text-brand-700;
   }
 
   .card {
-    @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm;
+    @apply rounded-lg border border-neutral-200 bg-white p-5 shadow-sm;
   }
 }

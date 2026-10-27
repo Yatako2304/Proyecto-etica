@@ -29,9 +29,9 @@ export default function ProposeCourseForm({ faculties }: { faculties: { id: numb
         </div>
       </div>
 
-      {state?.error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{state.error}</p>}
+      {state?.error && <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">{state.error}</p>}
       {state?.message && (
-        <p className="rounded-lg bg-green-50 p-3 text-sm text-green-700">
+        <p className="rounded-md bg-brand-50 p-3 text-sm text-brand-700">
           {state.message} <Link href="/subir" className="font-semibold underline">Subir material</Link>
         </p>
       )}

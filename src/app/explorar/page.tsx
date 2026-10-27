@@ -44,9 +44,9 @@ export default async function ExplorarPage({ searchParams }: { searchParams: Pro
 
       {query && (
         <section className="space-y-3">
-          <h2 className="font-semibold text-slate-700">Resultados para “{query}”</h2>
+          <h2 className="font-semibold text-neutral-700">Resultados para “{query}”</h2>
           {results.length === 0 ? (
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-neutral-500">
               No encontramos ese curso. <Link href="/proponer-curso" className="text-brand-600 underline">Propónlo aquí</Link>.
             </p>
           ) : (
@@ -55,7 +55,7 @@ export default async function ExplorarPage({ searchParams }: { searchParams: Pro
                 <Link key={c.id} href={`/curso/${c.code}`} className="card hover:border-brand-500">
                   <div className="text-xs font-semibold text-brand-600">{c.code} · {c.faculty_name}</div>
                   <div className="font-semibold">{c.name}</div>
-                  <div className="text-xs text-slate-500">{c.resource_count} recursos</div>
+                  <div className="text-xs text-neutral-500">{c.resource_count} recursos</div>
                 </Link>
               ))}
             </div>
@@ -64,14 +64,14 @@ export default async function ExplorarPage({ searchParams }: { searchParams: Pro
       )}
 
       <section className="space-y-3">
-        <h2 className="font-semibold text-slate-700">Facultades</h2>
+        <h2 className="font-semibold text-neutral-700">Facultades</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {(faculties ?? []).map((f) => {
             const s = stats.get(f.id);
             return (
               <Link key={f.id} href={`/facultad/${f.slug}`} className="card hover:border-brand-500">
                 <div className="font-semibold">{f.name}</div>
-                <div className="text-xs text-slate-500">
+                <div className="text-xs text-neutral-500">
                   {s?.courses ?? 0} cursos · {s?.resources ?? 0} recursos
                 </div>
               </Link>

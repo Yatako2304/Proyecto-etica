@@ -13,8 +13,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-screen flex-col">
         <Header />
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
-        <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-          ExamBank PUCP es un proyecto estudiantil y no es un servicio oficial de la PUCP.
+        <footer className="bg-neutral-950 py-6 text-center text-xs text-neutral-400">
+          <span className="font-semibold uppercase tracking-wide text-brand-300">ExamBank PUCP</span>
+          {" · "}Proyecto estudiantil; no es un servicio oficial de la PUCP.
         </footer>
       </body>
     </html>

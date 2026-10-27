@@ -188,15 +188,15 @@ export default function UploadForm({
         <label className="label" htmlFor="file">Archivo (PDF, JPG o PNG · máx. 20 MB)</label>
         <input id="file" type="file" accept="application/pdf,image/jpeg,image/png" required className="input"
           onChange={(e) => pickFile(e.target.files?.[0] ?? null)} />
-        {file && <p className="mt-1 text-xs text-slate-500">{file.name} · {formatBytes(file.size)}</p>}
+        {file && <p className="mt-1 text-xs text-neutral-500">{file.name} · {formatBytes(file.size)}</p>}
       </div>
 
-      <label className="flex items-center gap-2 text-sm text-slate-700">
+      <label className="flex items-center gap-2 text-sm text-neutral-700">
         <input type="checkbox" name="anonymous" className="size-4" />
         Publicar como anónimo (los moderadores sí verán tu alias)
       </label>
 
-      {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+      {error && <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p>}
 
       <button className="btn-primary w-full" disabled={busy}>
         {status === "uploading" ? "Subiendo archivo…" : status === "saving" ? "Guardando…" : "Enviar a revisión"}
