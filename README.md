@@ -16,6 +16,10 @@ Proyecto estudiantil, no oficial. Especificación completa en [docs/SPEC.md](doc
 
 > Los cursos de `seed.sql` son una muestra de referencia: verifica códigos y nombres con la oferta oficial.
 
+> ¿Ya creaste la base con una versión anterior de `schema.sql`? Ejecuta también
+> [`supabase/fix-votos.sql`](supabase/fix-votos.sql): corrige los votos "Útil / No útil", que fallaban
+> al votar material subido por otra persona.
+
 ### 2. Variables de entorno
 
 Copia `.env.example` como `.env.local` y completa:

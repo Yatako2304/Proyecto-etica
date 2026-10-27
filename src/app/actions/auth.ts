@@ -37,7 +37,12 @@ export async function signUp(_prev: FormState, formData: FormData): Promise<Form
   if (password.length < 8) return { error: "La contraseña debe tener al menos 8 caracteres." };
 
   const admin = createAdminClient();
-  const { data: taken } = await admin.from("profiles").select("id").ilike("alias", alias).maybeSingle();
+  // En ILIKE "_" es comodín: se escapa para comparar el alias literal (sin distinguir mayúsculas).
+  const { data: taken } = await admin
+    .from("profiles")
+    .select("id")
+    .ilike("alias", alias.replace(/_/g, "\\_"))
+    .maybeSingle();
   if (taken) return { error: "Ese alias ya está en uso. Prueba otro." };
 
   const supabase = await createClient();
