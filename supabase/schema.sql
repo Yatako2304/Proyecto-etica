@@ -156,19 +156,32 @@ create policy "resources: subir pendiente en mi carpeta" on public.resources
     and file_path like auth.uid()::text || '/%'
   );
 
+-- Las subconsultas dentro de una política respetan el RLS de la otra tabla, y un
+-- usuario solo puede leer sus propios recursos. Por eso la verificación corre
+-- con permisos del dueño: si no, solo se podría votar el material propio.
+create function public.is_approved_resource(resource uuid)
+returns boolean
+language sql
+stable
+security definer set search_path = ''
+as $$
+  select exists (select 1 from public.resources r where r.id = resource and r.status = 'approved');
+$$;
+
+revoke execute on function public.is_approved_resource(uuid) from public, anon;
+grant execute on function public.is_approved_resource(uuid) to authenticated;
+
 create policy "votes: leer los propios" on public.votes
   for select to authenticated using (user_id = auth.uid());
 
 create policy "votes: votar recursos aprobados" on public.votes
   for insert to authenticated
-  with check (
-    user_id = auth.uid()
-    and exists (select 1 from public.resources r where r.id = resource_id and r.status = 'approved')
-  );
+  with check (user_id = auth.uid() and public.is_approved_resource(resource_id));
 
 create policy "votes: cambiar mi voto" on public.votes
   for update to authenticated
-  using (user_id = auth.uid()) with check (user_id = auth.uid());
+  using (user_id = auth.uid())
+  with check (user_id = auth.uid() and public.is_approved_resource(resource_id));
 
 create policy "votes: quitar mi voto" on public.votes
   for delete to authenticated using (user_id = auth.uid());

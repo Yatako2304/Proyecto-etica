@@ -62,7 +62,7 @@ export default async function AdminPage() {
                 </form>
                 <form action={rejectCourse}>
                   <input type="hidden" name="id" value={c.id} />
-                  <button className="btn-secondary text-red-600">Rechazar</button>
+                  <button className="btn-secondary text-red-600 hover:border-red-400 hover:text-red-700">Rechazar</button>
                 </form>
               </div>
             </div>
@@ -104,7 +104,7 @@ export default async function AdminPage() {
               <form action={rejectResource} className="flex flex-1 gap-2">
                 <input type="hidden" name="id" value={r.id} />
                 <input name="reason" className="input" placeholder="Motivo del rechazo (ilegible, duplicado, datos personales…)" />
-                <button className="btn-secondary text-red-600">Rechazar</button>
+                <button className="btn-secondary text-red-600 hover:border-red-400 hover:text-red-700">Rechazar</button>
               </form>
             </div>
           </div>
