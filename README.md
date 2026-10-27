@@ -3,6 +3,10 @@
 Banco comunitario de exámenes pasados, solucionarios, apuntes, laboratorios y tareas para estudiantes de la PUCP.
 Proyecto estudiantil, no oficial. Especificación completa en [docs/SPEC.md](docs/SPEC.md).
 
+🌐 **App en producción:** https://exambank-pucp.vercel.app
+
+Cada push a `main` se despliega automáticamente en Vercel.
+
 **Stack:** Next.js 15 (App Router) · React 19 · Tailwind CSS 4 · Supabase (Postgres, Auth, Storage)
 
 ## Puesta en marcha
