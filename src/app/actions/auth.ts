@@ -7,9 +7,20 @@ import { createAdminClient, createClient } from "@/lib/supabase/server";
 
 export type FormState = { error?: string; message?: string } | undefined;
 
+/**
+ * Solo acepta rutas internas. Se resuelve contra un origen ficticio y se exige que
+ * el origen no cambie: así se rechazan "//evil.com", "/\evil.com" y variantes.
+ */
 function safeNext(next: FormDataEntryValue | null): string {
   const value = typeof next === "string" ? next : "";
-  return value.startsWith("/") && !value.startsWith("//") ? value : "/explorar";
+  if (!value.startsWith("/")) return "/explorar";
+  try {
+    const url = new URL(value, "http://exambank.local");
+    if (url.origin !== "http://exambank.local") return "/explorar";
+    return url.pathname + url.search;
+  } catch {
+    return "/explorar";
+  }
 }
 
 export async function signIn(_prev: FormState, formData: FormData): Promise<FormState> {

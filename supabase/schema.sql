@@ -156,32 +156,63 @@ create policy "resources: subir pendiente en mi carpeta" on public.resources
     and file_path like auth.uid()::text || '/%'
   );
 
+-- Tope de subidas por cuenta, como respaldo de los límites de la app (más estrictos)
+-- para quien llame a la API directamente. No aplica al service role (auth.uid() nulo).
+create function public.enforce_upload_limits()
+returns trigger
+language plpgsql
+security definer set search_path = ''
+as $$
+begin
+  if auth.uid() is null then
+    return new;
+  end if;
+  if (select count(*) from public.resources
+      where uploader_id = new.uploader_id and status = 'pending') >= 30 then
+    raise exception 'Demasiados aportes en revisión';
+  end if;
+  if (select count(*) from public.resources
+      where uploader_id = new.uploader_id and created_at > now() - interval '1 day') >= 50 then
+    raise exception 'Límite diario de subidas alcanzado';
+  end if;
+  return new;
+end;
+$$;
+
+create trigger resources_upload_limits
+  before insert on public.resources
+  for each row execute function public.enforce_upload_limits();
+
 -- Las subconsultas dentro de una política respetan el RLS de la otra tabla, y un
 -- usuario solo puede leer sus propios recursos. Por eso la verificación corre
 -- con permisos del dueño: si no, solo se podría votar el material propio.
-create function public.is_approved_resource(resource uuid)
+-- Además impide votar el material que uno mismo subió.
+create function public.can_vote_resource(resource uuid)
 returns boolean
 language sql
 stable
 security definer set search_path = ''
 as $$
-  select exists (select 1 from public.resources r where r.id = resource and r.status = 'approved');
+  select exists (
+    select 1 from public.resources r
+    where r.id = resource and r.status = 'approved' and r.uploader_id <> auth.uid()
+  );
 $$;
 
-revoke execute on function public.is_approved_resource(uuid) from public, anon;
-grant execute on function public.is_approved_resource(uuid) to authenticated;
+revoke execute on function public.can_vote_resource(uuid) from public, anon;
+grant execute on function public.can_vote_resource(uuid) to authenticated;
 
 create policy "votes: leer los propios" on public.votes
   for select to authenticated using (user_id = auth.uid());
 
 create policy "votes: votar recursos aprobados" on public.votes
   for insert to authenticated
-  with check (user_id = auth.uid() and public.is_approved_resource(resource_id));
+  with check (user_id = auth.uid() and public.can_vote_resource(resource_id));
 
 create policy "votes: cambiar mi voto" on public.votes
   for update to authenticated
   using (user_id = auth.uid())
-  with check (user_id = auth.uid() and public.is_approved_resource(resource_id));
+  with check (user_id = auth.uid() and public.can_vote_resource(resource_id));
 
 create policy "votes: quitar mi voto" on public.votes
   for delete to authenticated using (user_id = auth.uid());

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ResourceCard from "@/components/ResourceCard";
-import { RESOURCE_TYPES, isResourceType } from "@/lib/constants";
+import { COURSE_CODE_PATTERN, RESOURCE_TYPES, isResourceType } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import type { CourseSummary, FeedResource } from "@/lib/types";
 
@@ -14,14 +14,23 @@ export default async function CursoPage({
   params: Promise<{ code: string }>;
   searchParams: Promise<Search>;
 }) {
-  const { code } = await params;
+  const { code: rawCode } = await params;
   const { tipo, ciclo, orden } = await searchParams;
-  const supabase = await createClient();
 
+  // Un "%" suelto en la URL hace fallar decodeURIComponent: se trata como curso inexistente.
+  let code: string;
+  try {
+    code = decodeURIComponent(rawCode).toUpperCase();
+  } catch {
+    notFound();
+  }
+  if (!COURSE_CODE_PATTERN.test(code)) notFound();
+
+  const supabase = await createClient();
   const { data: course } = await supabase
     .from("course_summary")
     .select("*")
-    .eq("code", decodeURIComponent(code).toUpperCase())
+    .eq("code", code)
     .maybeSingle<CourseSummary>();
   if (!course) notFound();
 

@@ -31,6 +31,13 @@ export type AllowedMime = keyof typeof ALLOWED_MIME_TYPES;
 
 export const MAX_FILE_BYTES = 20 * 1024 * 1024;
 
+/**
+ * Límites por estudiante en la app (los admins no tienen límite). La base de datos
+ * tiene un tope más alto (30 / 50, ver enforce_upload_limits) como respaldo.
+ */
+export const MAX_PENDING_UPLOADS = 10;
+export const MAX_DAILY_UPLOADS = 20;
+
 export const STORAGE_BUCKET = "resources";
 
 export const TERM_PATTERN = /^\d{4}-[0-2]$/;

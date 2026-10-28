@@ -84,7 +84,7 @@ export default async function AdminPage() {
                   </span>
                   {r.courses.status !== "approved" && (
                     <span className="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-800">
-                      Curso aún no aprobado
+                      Curso nuevo: se aprobará junto con este material
                     </span>
                   )}
                 </div>

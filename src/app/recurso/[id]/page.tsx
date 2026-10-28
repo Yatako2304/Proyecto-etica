@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ResourceCard, { TypeBadge } from "@/components/ResourceCard";
+import DeleteResourceButton from "@/components/DeleteResourceButton";
 import VoteButtons from "@/components/VoteButtons";
 import { getViewableResource } from "@/lib/access";
 import { SOLVABLE_TYPES, STATUS_LABELS } from "@/lib/constants";
@@ -27,7 +28,8 @@ export default async function RecursoPage({ params }: { params: Promise<{ id: st
       : Promise.resolve({ data: null }),
   ]);
 
-  const showRealAuthor = user.isAdmin || resource.uploader_id === user.id;
+  const isOwner = resource.uploader_id === user.id;
+  const showRealAuthor = user.isAdmin || isOwner;
   const author = resource.is_anonymous
     ? `Anónimo${showRealAuthor ? ` (@${resource.profiles.alias}${user.isAdmin ? ` · ${resource.profiles.email}` : ""})` : ""}`
     : `@${resource.profiles.alias}`;
@@ -69,15 +71,22 @@ export default async function RecursoPage({ params }: { params: Promise<{ id: st
         </p>
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-100 pt-4">
-          {isPublished ? (
+          {isPublished && !isOwner ? (
             <VoteButtons
               resourceId={resource.id}
               initial={{ mine: (myVote?.value ?? 0) as -1 | 0 | 1, up: resource.upvotes, down: resource.downvotes }}
             />
+          ) : isPublished ? (
+            <span className="text-sm text-neutral-500">
+              Es tu aporte · 👍 {resource.upvotes} · 👎 {resource.downvotes}
+            </span>
           ) : (
             <span />
           )}
-          <div className="flex gap-2">
+          <div className="flex flex-wrap items-start gap-2">
+            {(isOwner || user.isAdmin) && (
+              <DeleteResourceButton resourceId={resource.id} redirectTo={`/curso/${resource.courses.code}`} />
+            )}
             <a href={fileUrl} target="_blank" rel="noreferrer" className="btn-secondary">Abrir</a>
             <a href={`${fileUrl}?descargar`} className="btn-primary">Descargar</a>
           </div>

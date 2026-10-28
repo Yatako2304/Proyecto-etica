@@ -14,10 +14,16 @@ function refresh() {
 export async function approveResource(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id"));
-  await createAdminClient()
+  const admin = createAdminClient();
+  const { data } = await admin
     .from("resources")
     .update({ status: "approved", reject_reason: null, reviewed_at: new Date().toISOString() })
-    .eq("id", id);
+    .eq("id", id)
+    .select("course_id")
+    .maybeSingle();
+  // Publicar material de un curso pendiente lo dejaría invisible en los listados:
+  // aprobar el material implica aprobar su curso.
+  if (data) await admin.from("courses").update({ status: "approved" }).eq("id", data.course_id).eq("status", "pending");
   refresh();
 }
 
